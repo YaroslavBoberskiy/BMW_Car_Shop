@@ -46,5 +46,8 @@ public class Demo {
         System.out.println("=== BMW Shop Warehouse ===");
         bmwShop.showWarehouse();
 
+        GUI gui = new GUI();
+        gui.showGUI();
+
     }
 }
