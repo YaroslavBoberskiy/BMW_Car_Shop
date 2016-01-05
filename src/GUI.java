@@ -16,7 +16,7 @@ public class GUI extends JFrame {
     private JComboBox customersTitle;
     private JComboBox customerFirstName;
     private JComboBox customerLastName;
-    private JList carsList;
+    private JComboBox carsList;
     private JButton sell;
 
     GUI () {
@@ -36,7 +36,7 @@ public class GUI extends JFrame {
         customersTitle = new JComboBox();
         customerFirstName = new JComboBox();
         customerLastName = new JComboBox();
-        carsList = new JList();
+        carsList = new JComboBox();
         carDetailInfo = new JFormattedTextField();
         sell = new JButton("SELL");
         sell.setName("sell");
@@ -53,13 +53,17 @@ public class GUI extends JFrame {
         sellButtonPanel.setPreferredSize(new Dimension(250, 50));
 
         customersTitle.setPreferredSize(new Dimension(50, 30));
+        customersTitle.setRenderer(new MyComboBoxRenderer("Title"));
         customerFirstName.setPreferredSize(new Dimension(90, 30));
+        customerFirstName.setRenderer(new MyComboBoxRenderer("First Name"));
         customerLastName.setPreferredSize(new Dimension(90, 30));
+        customerLastName.setRenderer(new MyComboBoxRenderer("Last Name"));
 
         carDetailInfo.setPreferredSize(new Dimension(250, 200));
         carDetailInfo.setBackground(new Color(255, 255, 255));
 
         carsList.setPreferredSize(new Dimension(250, 30));
+        carsList.setRenderer(new MyComboBoxRenderer("Choose car from warehouse"));
 
         customerPanel.add(customersTitle);
         customerPanel.add(customerFirstName);
@@ -84,4 +88,23 @@ public class GUI extends JFrame {
         this.setVisible(true);
     }
 
+}
+
+class MyComboBoxRenderer extends JLabel implements ListCellRenderer
+{
+    private String _title;
+
+    public MyComboBoxRenderer(String title)
+    {
+        _title = title;
+    }
+
+    @Override
+    public Component getListCellRendererComponent(JList list, Object value,
+                                                  int index, boolean isSelected, boolean hasFocus)
+    {
+        if (index == -1 && value == null) setText(_title);
+        else setText(value.toString());
+        return this;
+    }
 }
