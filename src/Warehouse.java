@@ -43,6 +43,16 @@ public class Warehouse {
         return availableCarsDB;
     }
 
+    public String[] getAvailableCarsDBbyVIN() {
+        String cars [] = new String[30];
+        for (int i=0; i < getAvailableCarsDB().length; i++) {
+            if (availableCarsDB[i] != null) {
+                cars[i] = "VIN: " + getAvailableCarsDB()[i].getVinCode();
+            }
+        }
+        return cars;
+    }
+
     public void setAvailableCarsDB(Car[] availableCarsDB) {
         this.availableCarsDB = availableCarsDB;
     }

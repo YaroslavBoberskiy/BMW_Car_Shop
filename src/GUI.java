@@ -1,86 +1,88 @@
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by YB on 05.01.2016.
  */
-public class GUI extends JFrame {
-    private JPanel controlPanel;
-    private JPanel carPanel;
+public class GUI extends JFrame implements ActionListener {
     private JPanel customerPanel;
+    private JPanel carPanel;
+    private JPanel chooseCustomerPanel;
     private JPanel sellButtonPanel;
     private JPanel chooseCarPanel;
-    private JPanel carInfoPanel;
-    private JTextField carDetailInfo;
-    private JComboBox customersTitle;
-    private JComboBox customerFirstName;
-    private JComboBox customerLastName;
-    private JComboBox carsList;
-    private JButton sell;
+    private JTextArea carDetailInfo;
+    private JTextArea customerDetailInfo;
+    private JComboBox customerInfoComboBox;
+    private JComboBox carsListComboBox;
+    private JButton sellButton;
+    private Shop carShop;
 
-    GUI () {
+    GUI(Shop carShop) {
         super("Bye new car");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
         setLocation(500, 100);
         setResizable(false);
         this.setLayout(new BorderLayout());
-
-        controlPanel = new JPanel();
         customerPanel = new JPanel();
+        chooseCustomerPanel = new JPanel();
         sellButtonPanel = new JPanel();
         carPanel = new JPanel();
-        carInfoPanel = new JPanel();
         chooseCarPanel = new JPanel();
-        customersTitle = new JComboBox();
-        customerFirstName = new JComboBox();
-        customerLastName = new JComboBox();
-        carsList = new JComboBox();
-        carDetailInfo = new JFormattedTextField();
-        sell = new JButton("SELL");
-        sell.setName("sell");
+        customerInfoComboBox = new JComboBox(carShop.getCdb().getClientsDBbyNames());
+        carsListComboBox = new JComboBox(carShop.getCwh().getAvailableCarsDBbyVIN());
+        carDetailInfo = new JTextArea();
+        customerDetailInfo = new JTextArea();
+        sellButton = new JButton("SELL");
+        sellButton.setName("sell");
+        this.carShop = carShop;
 
-        controlPanel.setPreferredSize(new Dimension(300, 200));
-        controlPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Choose the customer: "));
+        customerInfoComboBox.setName("customerInfoCB");
+        carsListComboBox.setName("carInfoCB");
+
+        customerInfoComboBox.addActionListener(this);
+        carsListComboBox.addActionListener(this);
+        sellButton.addActionListener(this);
+
+        customerPanel.setPreferredSize(new Dimension(300, 200));
+        customerPanel.setLayout(new BoxLayout(customerPanel, BoxLayout.Y_AXIS));
+        customerPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Choose the customer: "));
 
         carPanel.setPreferredSize(new Dimension(300, 200));
+        carPanel.setLayout(new BoxLayout(carPanel, BoxLayout.Y_AXIS));
         carPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Choose the car: "));
 
-        customerPanel.setPreferredSize(new Dimension(250, 250));
-        customerPanel.setLayout(new FlowLayout());
-        customerPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         sellButtonPanel.setPreferredSize(new Dimension(250, 50));
 
-        customersTitle.setPreferredSize(new Dimension(50, 30));
-        customersTitle.setRenderer(new MyComboBoxRenderer("Title"));
-        customerFirstName.setPreferredSize(new Dimension(90, 30));
-        customerFirstName.setRenderer(new MyComboBoxRenderer("First Name"));
-        customerLastName.setPreferredSize(new Dimension(90, 30));
-        customerLastName.setRenderer(new MyComboBoxRenderer("Last Name"));
+        customerInfoComboBox.setPreferredSize(new Dimension(250, 30));
+        carsListComboBox.setPreferredSize(new Dimension(250, 30));
 
         carDetailInfo.setPreferredSize(new Dimension(250, 200));
         carDetailInfo.setBackground(new Color(255, 255, 255));
 
-        carsList.setPreferredSize(new Dimension(250, 30));
-        carsList.setRenderer(new MyComboBoxRenderer("Choose car from warehouse"));
+        customerDetailInfo.setPreferredSize(new Dimension(250, 200));
+        customerDetailInfo.setBackground(new Color(255, 255, 255));
 
-        customerPanel.add(customersTitle);
-        customerPanel.add(customerFirstName);
-        customerPanel.add(customerLastName);
-        sellButtonPanel.add(sell);
+        chooseCustomerPanel.add(customerInfoComboBox);
+        chooseCustomerPanel.setPreferredSize(new Dimension(250, 60));
+        sellButtonPanel.add(sellButton);
 
-        chooseCarPanel.add(carsList);
-        carInfoPanel.add(carDetailInfo);
+        chooseCarPanel.add(carsListComboBox);
+        chooseCarPanel.setPreferredSize(new Dimension(250, 60));
 
-        controlPanel.add(customerPanel, BorderLayout.CENTER);
-        controlPanel.add(sellButtonPanel, BorderLayout.NORTH);
+        customerPanel.add(chooseCustomerPanel);
+        customerPanel.add(customerDetailInfo);
 
-        carPanel.add(chooseCarPanel, BorderLayout.SOUTH);
-        carPanel.add(carInfoPanel, BorderLayout.CENTER);
-
-        add(controlPanel, BorderLayout.CENTER);
+        carPanel.add(chooseCarPanel);
+        carPanel.add(carDetailInfo);
+        add(customerPanel, BorderLayout.WEST);
         add(carPanel, BorderLayout.EAST);
+        add(sellButtonPanel, BorderLayout.SOUTH);
+
+        this.pack();
 
     }
 
@@ -88,23 +90,46 @@ public class GUI extends JFrame {
         this.setVisible(true);
     }
 
-}
-
-class MyComboBoxRenderer extends JLabel implements ListCellRenderer
-{
-    private String _title;
-
-    public MyComboBoxRenderer(String title)
-    {
-        _title = title;
-    }
-
     @Override
-    public Component getListCellRendererComponent(JList list, Object value,
-                                                  int index, boolean isSelected, boolean hasFocus)
-    {
-        if (index == -1 && value == null) setText(_title);
-        else setText(value.toString());
-        return this;
+    public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() instanceof JComboBox) {
+
+            JComboBox comboBox = (JComboBox) e.getSource();
+
+            if (comboBox.getName() == "customerInfoCB") {
+                customerDetailInfo.setText(
+                        "Birth Day: " + carShop.getCdb().getClientsDB()[comboBox.getSelectedIndex()].getBirthDate() + "\n" +
+                                "Email: " + carShop.getCdb().getClientsDB()[comboBox.getSelectedIndex()].geteMail() + "\n" +
+                                "Tel. num: " + carShop.getCdb().getClientsDB()[comboBox.getSelectedIndex()].getTelNumber() + "\n" +
+                                "VIP: " + carShop.getCdb().getClientsDB()[comboBox.getSelectedIndex()].isVIP()
+                );
+            }
+
+            if (comboBox.getName() == "carInfoCB") {
+                carDetailInfo.setText(
+                        "Model: " + carShop.getCwh().getAvailableCarsDB()[comboBox.getSelectedIndex()].getModel() + "\n" +
+                                "Body Type: " + carShop.getCwh().getAvailableCarsDB()[comboBox.getSelectedIndex()].getBodyType() + "\n" +
+                                "Color: " + carShop.getCwh().getAvailableCarsDB()[comboBox.getSelectedIndex()].getColor() + "\n" +
+                                "Engine type: " + carShop.getCwh().getAvailableCarsDB()[comboBox.getSelectedIndex()].getEngineType() + "\n" +
+                                "Engine vol: " + carShop.getCwh().getAvailableCarsDB()[comboBox.getSelectedIndex()].getEngineSize() + "\n" +
+                                "Price: " + carShop.getCwh().getAvailableCarsDB()[comboBox.getSelectedIndex()].getPrice()
+                );
+            }
+        }
+        if (e.getSource() instanceof JButton) {
+            JButton button = (JButton) e.getSource();
+            if (button.getName() == "sell") {
+                if (customerInfoComboBox.getSelectedItem() != null && carsListComboBox.getSelectedItem() != null) {
+                    carShop.bayCar(carShop.getCwh().getAvailableCarsDB()[carsListComboBox.getSelectedIndex()].getVinCode(),
+                            carShop.getCdb().getClientsDB()[customerInfoComboBox.getSelectedIndex()].getFirstName(),
+                            carShop.getCdb().getClientsDB()[customerInfoComboBox.getSelectedIndex()].getLastName(),
+                            "06.01.16");
+
+                    carShop.showAllOperations();
+                }
+            }
+        }
     }
 }
+

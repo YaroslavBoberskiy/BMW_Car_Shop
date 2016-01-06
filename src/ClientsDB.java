@@ -46,4 +46,14 @@ public class ClientsDB {
         return clientsDB;
     }
 
+    public String[] getClientsDBbyNames() {
+        String clients [] = new String[30];
+        for (int i=0; i < clientsDB.length; i++) {
+            if (clientsDB[i] != null) {
+                clients[i] = clientsDB[i].getPersonTitle() + ". " + clientsDB[i].getFirstName()+" "+clientsDB[i].getLastName();
+            }
+        }
+        return clients;
+    }
+
 }

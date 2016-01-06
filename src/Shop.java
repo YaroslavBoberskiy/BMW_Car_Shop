@@ -57,4 +57,12 @@ public class Shop {
         transact.printAllTransactions();
     }
 
+    public ClientsDB getCdb() {
+        return cdb;
+    }
+
+    public Warehouse getCwh() {
+        return cwh;
+    }
+
 }
