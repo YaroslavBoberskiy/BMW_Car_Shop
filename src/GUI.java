@@ -19,6 +19,8 @@ public class GUI extends JFrame implements ActionListener {
     private JComboBox carsListComboBox;
     private JButton sellButton;
     private Shop carShop;
+    private static final String CAR_NOT_SELECTABLE_OPTION = " - Select a car - ";
+    private static final String CUSTOMER_NOT_SELECTABLE_OPTION = " - Select a customer - ";
 
     GUI(Shop carShop) {
         super("Bye new car");
@@ -33,7 +35,9 @@ public class GUI extends JFrame implements ActionListener {
         carPanel = new JPanel();
         chooseCarPanel = new JPanel();
         customerInfoComboBox = new JComboBox(carShop.getCdb().getClientsDBbyNames());
+        customerInfoComboBox.setSelectedIndex(0);
         carsListComboBox = new JComboBox(carShop.getCwh().getAvailableCarsDBbyVIN());
+        carsListComboBox.setSelectedIndex(0);
         carDetailInfo = new JTextArea();
         customerDetailInfo = new JTextArea();
         sellButton = new JButton("SELL");
@@ -99,34 +103,44 @@ public class GUI extends JFrame implements ActionListener {
 
             if (comboBox.getName() == "customerInfoCB") {
                 customerDetailInfo.setText(
-                        "Birth Day: " + carShop.getCdb().getClientsDB()[comboBox.getSelectedIndex()].getBirthDate() + "\n" +
-                                "Email: " + carShop.getCdb().getClientsDB()[comboBox.getSelectedIndex()].geteMail() + "\n" +
-                                "Tel. num: " + carShop.getCdb().getClientsDB()[comboBox.getSelectedIndex()].getTelNumber() + "\n" +
-                                "VIP: " + carShop.getCdb().getClientsDB()[comboBox.getSelectedIndex()].isVIP()
+                        "Birth Day: " + carShop.getCdb().getClientsDB().get(comboBox.getSelectedIndex()).getBirthDate() + "\n" +
+                                "Email: " + carShop.getCdb().getClientsDB().get(comboBox.getSelectedIndex()).geteMail() + "\n" +
+                                "Tel. num: " + carShop.getCdb().getClientsDB().get(comboBox.getSelectedIndex()).getTelNumber() + "\n" +
+                                "VIP: " + carShop.getCdb().getClientsDB().get(comboBox.getSelectedIndex()).isVIP()
                 );
             }
 
             if (comboBox.getName() == "carInfoCB") {
-                carDetailInfo.setText(
-                        "Model: " + carShop.getCwh().getAvailableCarsDB()[comboBox.getSelectedIndex()].getModel() + "\n" +
-                                "Body Type: " + carShop.getCwh().getAvailableCarsDB()[comboBox.getSelectedIndex()].getBodyType() + "\n" +
-                                "Color: " + carShop.getCwh().getAvailableCarsDB()[comboBox.getSelectedIndex()].getColor() + "\n" +
-                                "Engine type: " + carShop.getCwh().getAvailableCarsDB()[comboBox.getSelectedIndex()].getEngineType() + "\n" +
-                                "Engine vol: " + carShop.getCwh().getAvailableCarsDB()[comboBox.getSelectedIndex()].getEngineSize() + "\n" +
-                                "Price: " + carShop.getCwh().getAvailableCarsDB()[comboBox.getSelectedIndex()].getPrice()
-                );
+                carDetailInfo.setText(carShop.getCarInfoByVIN(String.valueOf(comboBox.getSelectedItem())));
             }
         }
+
         if (e.getSource() instanceof JButton) {
             JButton button = (JButton) e.getSource();
             if (button.getName() == "sell") {
-                if (customerInfoComboBox.getSelectedItem() != null && carsListComboBox.getSelectedItem() != null) {
-                    carShop.bayCar(carShop.getCwh().getAvailableCarsDB()[carsListComboBox.getSelectedIndex()].getVinCode(),
-                            carShop.getCdb().getClientsDB()[customerInfoComboBox.getSelectedIndex()].getFirstName(),
-                            carShop.getCdb().getClientsDB()[customerInfoComboBox.getSelectedIndex()].getLastName(),
-                            "06.01.16");
+                if (carShop.getCwh().getAvailableCarsDB().size() != 0) {
+                    sellButton.setEnabled(true);
+                    carShop.bayCar(carShop.getCwh().getAvailableCarsDB().get(carsListComboBox.getSelectedIndex()).getVinCode(),
+                            carShop.getCdb().getClientsDB().get(customerInfoComboBox.getSelectedIndex()).getFirstName(),
+                            carShop.getCdb().getClientsDB().get(customerInfoComboBox.getSelectedIndex()).getLastName(),
+                            "07.01.16");
 
+                    if (carsListComboBox.getSelectedItem() != null && carShop.getCwh().getAvailableCarsDB().size() >= 1) {
+                        carsListComboBox.removeItemAt(carsListComboBox.getSelectedIndex());
+                    } else {
+                        carsListComboBox.removeAllItems();
+                        carsListComboBox.addItem("All cars already sold!");
+                    }
+
+                    carDetailInfo.setText(carShop.getCarInfoByVIN(String.valueOf(carsListComboBox.getSelectedItem())));
+
+                    System.out.println("================");
                     carShop.showAllOperations();
+                    carShop.showWarehouse();
+                } else {
+                    sellButton.setEnabled(false);
+                    carsListComboBox.removeAll();
+                    carDetailInfo.setText("There is no cars in warehouse!");
                 }
             }
         }

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Created by YB on 02.11.2015.
  */
@@ -6,7 +8,7 @@ public class ClientsDB {
     // TilteBeforeClientName personTitle, String firstName, String lastName, String birthDate, String telNumber,
     // String eMail, boolean isVIP
 
-    private Client clientsDB[] = new Client[30];
+    private ArrayList<Client> clientsDB = new ArrayList<Client>();
 
     // Test data
 
@@ -17,43 +19,35 @@ public class ClientsDB {
     private Client c4 = new Client(TilteBeforeClientName.Dr, "Elizabeth", "Koh", "23.11.1957", "077-99-00-31", "eh@mailx.com", "female", true);
 
     public void fillDbWithTestClients() {
-        clientsDB[0] = c0;
-        clientsDB[1] = c1;
-        clientsDB[2] = c2;
-        clientsDB[3] = c3;
-        clientsDB[4] = c4;
+        clientsDB.add(c0);
+        clientsDB.add(c1);
+        clientsDB.add(c2);
+        clientsDB.add(c3);
+        clientsDB.add(c4);
     }
 
     public void addNewClientToDB(Client c) {
-
-        for (int i = 0; i < clientsDB.length; i++) {
-            if (clientsDB[i] == null) {
-                clientsDB[i] = c;
-                break;
-            }
+        if (c instanceof Client) {
+            clientsDB.add(c);
         }
     }
 
     public void showClients() {
-        for (int i = 0; i < clientsDB.length; i++) {
-            if (clientsDB[i] != null) {
-                System.out.println(clientsDB[i].getFirstName() + " " + clientsDB[i].getLastName());
-            }
+        for (Client c : clientsDB) {
+            System.out.println(c.getPersonTitle() + " " + c.getFirstName() + " " + c.getLastName());
         }
     }
 
-    public Client[] getClientsDB() {
+    public ArrayList<Client> getClientsDB() {
         return clientsDB;
     }
 
     public String[] getClientsDBbyNames() {
-        String clients [] = new String[30];
-        for (int i=0; i < clientsDB.length; i++) {
-            if (clientsDB[i] != null) {
-                clients[i] = clientsDB[i].getPersonTitle() + ". " + clientsDB[i].getFirstName()+" "+clientsDB[i].getLastName();
-            }
+        String[] clientsByNames = new String[clientsDB.size()];
+        for (int i = 0; i < clientsByNames.length; i++) {
+            clientsByNames[i] = clientsDB.get(i).getPersonTitle() + " " + clientsDB.get(i).getFirstName() + " " + clientsDB.get(i).getLastName();
         }
-        return clients;
+        return clientsByNames;
     }
 
 }
