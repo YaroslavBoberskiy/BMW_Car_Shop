@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by YB on 05.01.2016.
  */
-public class GUI extends JFrame implements ActionListener {
+public class GUI_Sell extends JFrame implements ActionListener {
     private JPanel customerPanel;
     private JPanel carPanel;
     private JPanel chooseCustomerPanel;
@@ -18,11 +18,11 @@ public class GUI extends JFrame implements ActionListener {
     private JComboBox customerInfoComboBox;
     private JComboBox carsListComboBox;
     private JButton sellButton;
+    private JButton showTransactButton;
     private Shop carShop;
-    private static final String CAR_NOT_SELECTABLE_OPTION = " - Select a car - ";
-    private static final String CUSTOMER_NOT_SELECTABLE_OPTION = " - Select a customer - ";
+    private GUI_TransactionsInfo guiTransactionsInfo;
 
-    GUI(Shop carShop) {
+    GUI_Sell(Shop carShop) {
         super("Bye new car");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
@@ -41,7 +41,9 @@ public class GUI extends JFrame implements ActionListener {
         carDetailInfo = new JTextArea();
         customerDetailInfo = new JTextArea();
         sellButton = new JButton("SELL");
+        showTransactButton = new JButton("Show Transactions");
         sellButton.setName("sell");
+        showTransactButton.setName("show_transact");
         this.carShop = carShop;
 
         customerInfoComboBox.setName("customerInfoCB");
@@ -50,6 +52,7 @@ public class GUI extends JFrame implements ActionListener {
         customerInfoComboBox.addActionListener(this);
         carsListComboBox.addActionListener(this);
         sellButton.addActionListener(this);
+        showTransactButton.addActionListener(this);
 
         customerPanel.setPreferredSize(new Dimension(300, 200));
         customerPanel.setLayout(new BoxLayout(customerPanel, BoxLayout.Y_AXIS));
@@ -73,6 +76,7 @@ public class GUI extends JFrame implements ActionListener {
         chooseCustomerPanel.add(customerInfoComboBox);
         chooseCustomerPanel.setPreferredSize(new Dimension(250, 60));
         sellButtonPanel.add(sellButton);
+        sellButtonPanel.add(showTransactButton);
 
         chooseCarPanel.add(carsListComboBox);
         chooseCarPanel.setPreferredSize(new Dimension(250, 60));
@@ -142,6 +146,10 @@ public class GUI extends JFrame implements ActionListener {
                     carsListComboBox.removeAll();
                     carDetailInfo.setText("There is no cars in warehouse!");
                 }
+            }
+            if (button.getName() == "show_transact") {
+                guiTransactionsInfo = new GUI_TransactionsInfo(carShop);
+                guiTransactionsInfo.setVisible(true);
             }
         }
     }

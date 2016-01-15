@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Created by YB on 04.11.2015.
  */
@@ -6,6 +8,11 @@ public class Shop {
     private ClientsDB cdb = new ClientsDB();
     private Warehouse cwh = new Warehouse();
     private Transaction transact = new Transaction();
+    private ArrayList<String> transactionsList = new ArrayList<String>();
+    private int transactionID = 0;
+    private final int COLUMN_COUNT_JTABLE = 7;
+    private final int ROW_COUNT_JTABLE = 15;
+    private String[][] jtableArr = new String[ROW_COUNT_JTABLE][COLUMN_COUNT_JTABLE];
 
     public void fillShopWithTestData() {
         cdb.fillDbWithTestClients();
@@ -32,6 +39,27 @@ public class Shop {
 
         Car car = null;
         Client client = null;
+        String[] transactionRowArr = new String[COLUMN_COUNT_JTABLE];
+
+        transactionsList.add(Integer.toString(transactionID));
+        transactionsList.add(date);
+        transactionsList.add(clientFirstName);
+        transactionsList.add(clientLastName);
+        transactionsList.add(carVin);
+        transactionsList.add(getCwh().getCarModelByVINCode(carVin));
+        transactionsList.add(getCwh().getCarPriceByVINCode(carVin));
+
+        transactionRowArr = transactionsList.toArray(transactionRowArr);
+
+        for (String s : transactionRowArr) {
+            System.out.println(s);
+        }
+
+        jtableArr[transactionID] = transactionRowArr;
+
+        transactionID ++;
+
+        transactionsList.clear();
 
         for (int i = 0; i < cwh.getAvailableCarsDB().size(); i++) {
             if (cwh.getAvailableCarsDB().get(i).getVinCode() == carVin) {
@@ -76,4 +104,7 @@ public class Shop {
         return cwh;
     }
 
+    public String[][] getJtableArr() {
+        return jtableArr;
+    }
 }
