@@ -1,3 +1,5 @@
+import java.awt.*;
+
 /**
  * Created by YB on 02.11.2015.
  */
@@ -9,6 +11,15 @@ public class Demo {
 
         // Filling Shop DB with test data
         bmwShop.fillShopWithTestData();
+
+        SplashScreen splash = SplashScreen.getSplashScreen();
+        try {
+            Thread.sleep(3500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        splash.close();
+
 
         //Show all clients
 //        System.out.println("=== Clients ===");
