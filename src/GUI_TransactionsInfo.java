@@ -11,7 +11,7 @@ public class GUI_TransactionsInfo extends JFrame {
 
     GUI_TransactionsInfo(Shop carShop) {
         super("All transactions info");
-        setSize(500, 300);
+        setSize(700, 300);
         setLocation(700, 300);
         setResizable(false);
         this.setLayout(new BorderLayout());

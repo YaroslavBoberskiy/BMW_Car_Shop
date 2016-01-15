@@ -13,12 +13,16 @@ public class GUI_Sell extends JFrame implements ActionListener {
     private JPanel chooseCustomerPanel;
     private JPanel sellButtonPanel;
     private JPanel chooseCarPanel;
+
+    private JMenuBar menuBar;
+    private JMenu fileMenu;
+    private JMenuItem showTransactionsAction;
+
     private JTextArea carDetailInfo;
     private JTextArea customerDetailInfo;
     private JComboBox customerInfoComboBox;
     private JComboBox carsListComboBox;
     private JButton sellButton;
-    private JButton showTransactButton;
     private Shop carShop;
     private GUI_TransactionsInfo guiTransactionsInfo;
 
@@ -34,6 +38,13 @@ public class GUI_Sell extends JFrame implements ActionListener {
         sellButtonPanel = new JPanel();
         carPanel = new JPanel();
         chooseCarPanel = new JPanel();
+        menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+        fileMenu = new JMenu("File");
+        showTransactionsAction = new JMenuItem("Show all transactions");
+        showTransactionsAction.setName("show_transact");
+        fileMenu.add(showTransactionsAction);
+        menuBar.add(fileMenu);
         customerInfoComboBox = new JComboBox(carShop.getCdb().getClientsDBbyNames());
         customerInfoComboBox.setSelectedIndex(0);
         carsListComboBox = new JComboBox(carShop.getCwh().getAvailableCarsDBbyVIN());
@@ -41,9 +52,7 @@ public class GUI_Sell extends JFrame implements ActionListener {
         carDetailInfo = new JTextArea();
         customerDetailInfo = new JTextArea();
         sellButton = new JButton("SELL");
-        showTransactButton = new JButton("Show Transactions");
         sellButton.setName("sell");
-        showTransactButton.setName("show_transact");
         this.carShop = carShop;
 
         customerInfoComboBox.setName("customerInfoCB");
@@ -52,7 +61,7 @@ public class GUI_Sell extends JFrame implements ActionListener {
         customerInfoComboBox.addActionListener(this);
         carsListComboBox.addActionListener(this);
         sellButton.addActionListener(this);
-        showTransactButton.addActionListener(this);
+        showTransactionsAction.addActionListener(this);
 
         customerPanel.setPreferredSize(new Dimension(300, 200));
         customerPanel.setLayout(new BoxLayout(customerPanel, BoxLayout.Y_AXIS));
@@ -76,7 +85,6 @@ public class GUI_Sell extends JFrame implements ActionListener {
         chooseCustomerPanel.add(customerInfoComboBox);
         chooseCustomerPanel.setPreferredSize(new Dimension(250, 60));
         sellButtonPanel.add(sellButton);
-        sellButtonPanel.add(showTransactButton);
 
         chooseCarPanel.add(carsListComboBox);
         chooseCarPanel.setPreferredSize(new Dimension(250, 60));
@@ -147,7 +155,11 @@ public class GUI_Sell extends JFrame implements ActionListener {
                     carDetailInfo.setText("There is no cars in warehouse!");
                 }
             }
-            if (button.getName() == "show_transact") {
+        }
+
+        if (e.getSource() instanceof JMenuItem) {
+            JMenuItem menuItem = (JMenuItem) e.getSource();
+            if (menuItem.getName() == "show_transact") {
                 guiTransactionsInfo = new GUI_TransactionsInfo(carShop);
                 guiTransactionsInfo.setVisible(true);
             }
