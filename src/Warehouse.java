@@ -40,28 +40,6 @@ public class Warehouse {
         }
     }
 
-    public String getCarModelByVINCode(String carVIN) {
-        String carModel = "no such car model by VIN";
-        for (int i = 0; i < getAvailableCarsDB().size(); i++) {
-            if(availableCarsDB.get(i).getVinCode() == carVIN) {
-                carModel = String.valueOf(availableCarsDB.get(i).getModel());
-                return carModel;
-            }
-        }
-        return carModel;
-    }
-
-    public String getCarPriceByVINCode(String carVIN) {
-        String carPrice = "no such car price by VIN";
-        for (int i = 0; i < getAvailableCarsDB().size(); i++) {
-            if(availableCarsDB.get(i).getVinCode() == carVIN) {
-                carPrice = String.valueOf(availableCarsDB.get(i).getPrice());
-                return carPrice;
-            }
-        }
-        return carPrice;
-    }
-
     public ArrayList<Car> getAvailableCarsDB() {
         return availableCarsDB;
     }

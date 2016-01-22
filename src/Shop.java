@@ -41,26 +41,6 @@ public class Shop {
         Client client = null;
         String[] transactionRowArr = new String[COLUMN_COUNT_JTABLE];
 
-        transactionsList.add(Integer.toString(transactionID));
-        transactionsList.add(date);
-        transactionsList.add(clientFirstName);
-        transactionsList.add(clientLastName);
-        transactionsList.add(carVin);
-        transactionsList.add(getCwh().getCarModelByVINCode(carVin));
-        transactionsList.add(getCwh().getCarPriceByVINCode(carVin));
-
-        transactionRowArr = transactionsList.toArray(transactionRowArr);
-
-        for (String s : transactionRowArr) {
-            System.out.println(s);
-        }
-
-        jtableArr[transactionID] = transactionRowArr;
-
-        transactionID ++;
-
-        transactionsList.clear();
-
         for (int i = 0; i < cwh.getAvailableCarsDB().size(); i++) {
             if (cwh.getAvailableCarsDB().get(i).getVinCode() == carVin) {
                 car = cwh.getAvailableCarsDB().get(i);
@@ -74,7 +54,38 @@ public class Shop {
             }
         }
 
+        setDiscount(car);
+
+        transactionsList.add(Integer.toString(transactionID));
+        transactionsList.add(date);
+        transactionsList.add(clientFirstName);
+        transactionsList.add(clientLastName);
+        transactionsList.add(carVin);
+        transactionsList.add(car.getModel().toString());
+        transactionsList.add(String.valueOf(car.getPrice()));
+
+        transactionRowArr = transactionsList.toArray(transactionRowArr);
+
+        for (String s : transactionRowArr) {
+            System.out.println(s);
+        }
+
+        jtableArr[transactionID] = transactionRowArr;
+
+        transactionID ++;
+
+        transactionsList.clear();
+
         transact.makeTransaction(new Transaction("TR:", date, car, client));
+    }
+
+    public void setDiscount (Car car) {
+        if (car.getPrice() >= 80000 && car.getPrice() < 100000) {
+            car.setPrice(car.getPrice() - (car.getPrice()*0.05));
+        }
+        if (car.getPrice() >= 100000) {
+            car.setPrice(car.getPrice() - (car.getPrice()*0.1));
+        }
     }
 
     public void showAllOperations() {
@@ -107,4 +118,5 @@ public class Shop {
     public String[][] getJtableArr() {
         return jtableArr;
     }
+
 }

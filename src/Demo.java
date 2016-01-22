@@ -5,7 +5,7 @@ import java.awt.*;
  */
 public class Demo {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
 
         Shop bmwShop = new Shop();
 
@@ -13,11 +13,13 @@ public class Demo {
         bmwShop.fillShopWithTestData();
 
         SplashScreen splash = SplashScreen.getSplashScreen();
-        try {
-            Thread.sleep(3500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Thread.sleep(3500);
+        Graphics2D graphics = splash.createGraphics();
+        graphics.setColor(Color.WHITE);
+        graphics.drawString("Loading...", 350, 300);
+        splash.update();
+        Thread.sleep(2000);
+
         splash.close();
 
 

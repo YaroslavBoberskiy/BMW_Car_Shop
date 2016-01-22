@@ -29,6 +29,7 @@ public class Transaction {
     }
 
     public void makeTransaction(Transaction tr) {
+
         transactionInfo = "ID: " + tr.transactionID + ", DATE: " + tr.transactionDate + ", CLIENT FIRST NAME: " +
                 tr.client.getFirstName() + ", CLIENT LAST NAME: " + tr.client.getLastName() + ", CAR VIN: " +
                 tr.car.getVinCode() + ", CAR MODEL: " + tr.car.getModel() + ", PRICE: " + tr.car.getPrice();
@@ -47,5 +48,29 @@ public class Transaction {
         } else {
             System.out.println("There is no transactions in DB");
         }
+    }
+
+    public String getTransactionID() {
+        return transactionID;
+    }
+
+    public String getTransactionDate() {
+        return transactionDate;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public ArrayList<Car> getSoldCars() {
+        return soldCars;
+    }
+
+    public ArrayList<String> getTransactionsDB() {
+        return transactionsDB;
     }
 }

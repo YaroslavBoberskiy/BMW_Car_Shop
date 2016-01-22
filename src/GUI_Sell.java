@@ -98,6 +98,8 @@ public class GUI_Sell extends JFrame implements ActionListener {
         add(carPanel, BorderLayout.EAST);
         add(sellButtonPanel, BorderLayout.SOUTH);
 
+        guiTransactionsInfo = new GUI_TransactionsInfo(carShop);
+
         this.pack();
 
     }
@@ -149,6 +151,9 @@ public class GUI_Sell extends JFrame implements ActionListener {
                     System.out.println("================");
                     carShop.showAllOperations();
                     carShop.showWarehouse();
+
+                    guiTransactionsInfo.repaint();
+
                 } else {
                     sellButton.setEnabled(false);
                     carsListComboBox.removeAll();
@@ -160,7 +165,6 @@ public class GUI_Sell extends JFrame implements ActionListener {
         if (e.getSource() instanceof JMenuItem) {
             JMenuItem menuItem = (JMenuItem) e.getSource();
             if (menuItem.getName() == "show_transact") {
-                guiTransactionsInfo = new GUI_TransactionsInfo(carShop);
                 guiTransactionsInfo.setVisible(true);
             }
         }
