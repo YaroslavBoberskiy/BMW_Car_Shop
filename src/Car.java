@@ -38,48 +38,24 @@ public class Car {
         return model;
     }
 
-    public void setModel(CarModel model) {
-        this.model = model;
-    }
-
     public CarColor getColor() {
         return color;
-    }
-
-    public void setColor(CarColor color) {
-        this.color = color;
     }
 
     public EngineType getEngineType() {
         return engineType;
     }
 
-    public void setEngineType(EngineType engineType) {
-        this.engineType = engineType;
-    }
-
     public BodyType getBodyType() {
         return bodyType;
-    }
-
-    public void setBodyType(BodyType bodyType) {
-        this.bodyType = bodyType;
     }
 
     public String getVinCode() {
         return vinCode;
     }
 
-    public void setVinCode(String vinCode) {
-        this.vinCode = vinCode;
-    }
-
     public double getEngineSize() {
         return engineSize;
-    }
-
-    public void setEngineSize(double engineSize) {
-        this.engineSize = engineSize;
     }
 
     public double getPrice() {

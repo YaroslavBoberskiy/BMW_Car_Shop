@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by YB on 04.11.2015.
@@ -57,7 +58,7 @@ public class Shop {
         setDiscount(car);
 
         transactionsList.add(Integer.toString(transactionID));
-        transactionsList.add(date);
+        transactionsList.add(date.toString());
         transactionsList.add(clientFirstName);
         transactionsList.add(clientLastName);
         transactionsList.add(carVin);
@@ -76,7 +77,7 @@ public class Shop {
 
         transactionsList.clear();
 
-        transact.makeTransaction(new Transaction("TR:", date, car, client));
+        transact.makeTransaction(new Transaction("TR:" + transactionID, date.toString(), car, client));
     }
 
     public void setDiscount (Car car) {
@@ -113,6 +114,10 @@ public class Shop {
 
     public Warehouse getCwh() {
         return cwh;
+    }
+
+    public Date getDate() {
+        return new Date();
     }
 
     public String[][] getJtableArr() {

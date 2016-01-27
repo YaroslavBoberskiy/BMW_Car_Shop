@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
  * Created by YB on 05.01.2016.
  */
 public class GUI_Sell extends JFrame implements ActionListener {
+
     private JPanel customerPanel;
     private JPanel carPanel;
     private JPanel chooseCustomerPanel;
@@ -137,7 +138,7 @@ public class GUI_Sell extends JFrame implements ActionListener {
                     carShop.bayCar(carShop.getCwh().getAvailableCarsDB().get(carsListComboBox.getSelectedIndex()).getVinCode(),
                             carShop.getCdb().getClientsDB().get(customerInfoComboBox.getSelectedIndex()).getFirstName(),
                             carShop.getCdb().getClientsDB().get(customerInfoComboBox.getSelectedIndex()).getLastName(),
-                            "07.01.16");
+                            carShop.getDate().toString());
 
                     if (carsListComboBox.getSelectedItem() != null && carShop.getCwh().getAvailableCarsDB().size() >= 1) {
                         carsListComboBox.removeItemAt(carsListComboBox.getSelectedIndex());

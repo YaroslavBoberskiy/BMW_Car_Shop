@@ -41,55 +41,27 @@ public class Client {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public TilteBeforeClientName getPersonTitle() {
         return personTitle;
     }
 
-    public void setPersonTitle(TilteBeforeClientName personTitle) {
-        this.personTitle = personTitle;
-    }
-
     public String getBirthDate() {
         return birthDate;
-    }
-
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
     }
 
     public String getTelNumber() {
         return telNumber;
     }
 
-    public void setTelNumber(String telNumber) {
-        this.telNumber = telNumber;
-    }
-
     public String geteMail() {
         return eMail;
     }
 
-    public void seteMail(String eMail) {
-        this.eMail = eMail;
-    }
-
     public boolean isVIP() {
         return isVIP;
-    }
-
-    public void setVIP(boolean isVIP) {
-        this.isVIP = isVIP;
     }
 }

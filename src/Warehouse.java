@@ -5,7 +5,7 @@ import java.util.ArrayList;
  */
 public class Warehouse {
 
-    ArrayList<Car> availableCarsDB = new ArrayList();
+    ArrayList<Car> availableCarsDB = new ArrayList<Car>();
 
     // String vinCode, CarModel model, CarColor color, EngineType engineType, double engineSize, BodyType bodyType, double price
     // Test Data
